@@ -6,6 +6,9 @@ const authController = require('../controller/authController')
 /* POST user register. */
 router.post('/register', authController.register);
 
+/* POST user login. */
+router.post('/signin', authController.login);
+
 // router.post('/register', function (req, res, next) {
 //   // res.send('respond with a resource');
 //   const email = req.body.email
@@ -26,25 +29,25 @@ router.post('/register', authController.register);
 
 // });
 
-router.post('/signin', async (req, res, next) => {
-  const email = req.body.email
-  const password = req.body.password
+// router.post('/signin', async (req, res, next) => {
+//   const email = req.body.email
+//   const password = req.body.password
 
-  const user = await User.findOne({ email: email });
+//   const user = await User.findOne({ email: email });
 
-  // Check if email exists in DB.
-  if (user) {
-    // Check if password is correct
-    if (password == user.password) {
-      res.send({ message: 'Logged in successfully' })
-      console.log('Logged in successfully');
-    } else {
-      res.status(401).send({ message: 'Incorrect password.' })
-    }
-  } else {
-    res.status(401).send({ message: 'E-mail not found!' })
-  }
+//   // Check if email exists in DB.
+//   if (user) {
+//     // Check if password is correct
+//     if (password == user.password) {
+//       res.send({ message: 'Logged in successfully' })
+//       console.log('Logged in successfully');
+//     } else {
+//       res.status(401).send({ message: 'Incorrect password.' })
+//     }
+//   } else {
+//     res.status(401).send({ message: 'E-mail not found!' })
+//   }
 
-})
+// })
 
 module.exports = router;

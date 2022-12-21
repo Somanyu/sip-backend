@@ -31,7 +31,30 @@ exports.register = async (req, res) => {
 
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: maxAge
-  });
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: maxAge
+    });
 };
+
+exports.login = async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+
+        // Check if email exists in DB.
+        if (!user) {
+            return res.status(401).send({ errorMsg: 'E-mail not found!' })
+        }
+
+        // Check if password is correct.
+        const validPassword = await bcrypt.compare(req.body.password, user.password)
+        if (!validPassword) {
+            res.status(401).send({ errorMsg: 'Incorrect password.' })
+        }
+
+        const token = createToken(user._id);
+        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+        res.status(200).send({ successMsg: 'Logged in successfully.' })
+    } catch (error) {
+        console.log(error);
+    }
+}
