@@ -1,26 +1,30 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
+const authController = require('../controller/authController')
 
-router.post('/register', function (req, res, next) {
-  // res.send('respond with a resource');
-  const email = req.body.email
-  const password = req.body.password
+/* POST user register. */
+router.post('/register', authController.register);
 
-  // const responseData = {myEmail: email, myPassword: password}
-  // console.log(responseData);
+// router.post('/register', function (req, res, next) {
+//   // res.send('respond with a resource');
+//   const email = req.body.email
+//   const password = req.body.password
 
-  const userData = new User(req.body)
+//   // const responseData = {myEmail: email, myPassword: password}
+//   // console.log(responseData);
 
-  userData.save((err) => {
-    if (err) {
-      res.status(500).send({ error: err })
-    } else {
-      res.send({ message: 'Form data saved successfully.' })
-    }
-  })
+//   const userData = new User(req.body)
 
-});
+//   userData.save((err) => {
+//     if (err) {
+//       res.status(500).send({ error: err })
+//     } else {
+//       res.send({ message: 'Form data saved successfully.' })
+//     }
+//   })
+
+// });
 
 router.post('/signin', async (req, res, next) => {
   const email = req.body.email
