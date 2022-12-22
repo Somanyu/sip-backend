@@ -59,16 +59,21 @@ router.post('/calculate', (req, res) => {
   console.log("Intervals - " + intervals);
 
   const totalValue = Math.round(principal * ((Math.pow(1 + intervals, time) - 1) / intervals) * (1 + intervals))
-  
-  const investedAmount = (principal*time)
-  const estReturns = Math.round(totalValue-(principal*time))
+
+  const investedAmount = (principal * time)
+  const estReturns = Math.round(totalValue - (principal * time))
 
   // const sip = (principal * rate * time) / (12 * intervals)
-  
+
   console.log("Invested amount: " + investedAmount);
   console.log("Est. returns: " + estReturns);
   console.log("Total value is: " + totalValue)
-  res.send({ totalValue })
+
+  const data = [
+    { label: 'Invested Amount', value: investedAmount },
+    { label: 'Estimated Returns', value: estReturns }
+  ]
+  res.send(data)
 })
 
 module.exports = router;
