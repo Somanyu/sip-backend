@@ -50,4 +50,25 @@ router.post('/signin', authController.login);
 
 // })
 
+router.post('/calculate', (req, res) => {
+  const { principal, rate, time } = req.body;
+  const intervals = rate / 100 / 12
+  console.log("Principal - " + principal);
+  console.log("Rate - " + rate);
+  console.log("Time - " + time);
+  console.log("Intervals - " + intervals);
+
+  const totalValue = Math.round(principal * ((Math.pow(1 + intervals, time) - 1) / intervals) * (1 + intervals))
+  
+  const investedAmount = (principal*time)
+  const estReturns = Math.round(totalValue-(principal*time))
+
+  // const sip = (principal * rate * time) / (12 * intervals)
+  
+  console.log("Invested amount: " + investedAmount);
+  console.log("Est. returns: " + estReturns);
+  console.log("Total value is: " + totalValue)
+  res.send({ totalValue })
+})
+
 module.exports = router;
